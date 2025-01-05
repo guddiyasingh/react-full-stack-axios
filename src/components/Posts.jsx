@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useEffect } from "react";
-import {getPost} from "../api/PostApi"
+import {deletePost, getPost} from "../api/PostApi"
 import "../App.css";
 
 const Posts = () => {
@@ -17,6 +17,24 @@ const [data, setData] = useState([]);
     getPostData();
  }, []);
 
+ // function to delete Post
+
+ const handleDeletePost = async(id) => {
+
+  try{
+    const res = await deletePost(id);
+    if(res.status === 200){
+      const newUpdatedPosts = data.filter((curPost) =>{
+        return curPost.id !=id;
+      });
+      setData(newUpdatedPosts)
+    }
+  } catch (error){
+ console.log(error);
+  }
+  
+ };
+
 
   return (<section className="section-post">
     <ol>
@@ -28,7 +46,7 @@ const [data, setData] = useState([]);
         <p>Title: {title}</p>
         <p>Body: {body}</p>
       <button>Edit</button>
-      <button className='btn-delete'>Delete</button>
+      <button className='btn-delete' onClick={() => handleDeletePost(id)}>Delete</button>
       </li>)
       })}
     </ol>
