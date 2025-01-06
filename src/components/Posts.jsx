@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useEffect } from "react";
 import {deletePost, getPost} from "../api/PostApi"
 import "../App.css";
+import Form from './Form';
 
 const Posts = () => {
 
@@ -25,7 +26,7 @@ const [data, setData] = useState([]);
     const res = await deletePost(id);
     if(res.status === 200){
       const newUpdatedPosts = data.filter((curPost) =>{
-        return curPost.id !=id;
+        return curPost.id !==id;
       });
       setData(newUpdatedPosts)
     }
@@ -36,7 +37,13 @@ const [data, setData] = useState([]);
  };
 
 
-  return (<section className="section-post">
+  return <>
+  
+  <section className='section-from'>
+    <Form data={data} setData/>
+  </section>
+  
+  <section className="section-post">
     <ol>
       {data.map((curElem) =>
        {
@@ -50,8 +57,10 @@ const [data, setData] = useState([]);
       </li>)
       })}
     </ol>
-  </section>)
+  </section>
   
+
+</>
 }
 
 export default Posts
